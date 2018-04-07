@@ -1,0 +1,3 @@
+﻿  mpgk.cpp
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.h(16): error C2065: 'vertexShader': undeclared identifier
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.h(23): error C2065: 'fragmentShader': undeclared identifier
