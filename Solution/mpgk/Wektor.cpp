@@ -90,7 +90,6 @@ Wektor Wektor::operator += (const Wektor& w) {
 	return *this;
 }
 
-//do poprawy. 0 jako null.
 Wektor Wektor::operator - (const Wektor& w) {
 	Wektor n = Wektor();
 	n.setX(wspolrzedne[0] - w.getX());

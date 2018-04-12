@@ -1,3 +1,8 @@
 ﻿  mpgk.cpp
-i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.h(16): error C2065: 'vertexShader': undeclared identifier
-i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.h(23): error C2065: 'fragmentShader': undeclared identifier
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.cpp(6): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.cpp(10): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.cpp(124): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.cpp(128): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+i:\studia\semestr2\matematyczne podstawy grafiki komputerowej\basic opengl\solution\mpgk\mpgk.cpp(393): warning C4305: 'argument': truncation from 'double' to 'float'
+  mpgk.vcxproj -> I:\Studia\semestr2\Matematyczne podstawy grafiki komputerowej\Basic OpenGL\Solution\Debug\mpgk.exe
+  mpgk.vcxproj -> I:\Studia\semestr2\Matematyczne podstawy grafiki komputerowej\Basic OpenGL\Solution\Debug\mpgk.pdb (Full PDB)

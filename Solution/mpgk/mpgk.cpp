@@ -1,5 +1,14 @@
 #include "mpgk.h"
 #include "Wektor.h"
+#include "Macierz.cpp"
+
+float naRadiany(int stopien) {
+	return (stopien * 3.1415) / 180;
+}
+
+int naStopnie(float radiany) {
+	return (radiany * 180) / 3.1415;
+}
 
 ProgramMPGK::ProgramMPGK()
 {
@@ -111,6 +120,13 @@ void ProgramMPGK::zapisz_shader(std::string shader, const char *vertShaderSrc) {
 	outfile << vertShaderSrc;
 }
 
+int ProgramMPGK::naStopnie(float radian) {
+	return radian * (180.0 / 3.141592653589793238463);
+}
+
+float ProgramMPGK::naRadiany(int stopien) {
+	return 3.141592653589793238463/180.0 * stopien;
+}
 
 std::string ProgramMPGK::readFile(const char *filePath) {
 	std::string content;
@@ -288,11 +304,98 @@ GLint main(GLint argc, GLchar** argv)
 	Wektor w5a = w5.normalizuj();
 	std::cout << w5a;
 
+	/*std::cout << std::endl << std::endl << "WEKTORY" << std::endl << std::endl;
+
+	Wektor<3> a = { 3,2,1 };
+	Wektor<3> b(1, 1, 1);
+	Wektor<4> q = { 1,2,3,4 };
+	Wektor<3> c;
+	std::cout << "a: " << a << std::endl;
+	std::cout << "b: " << b << std::endl;
+	std::cout << "q: " << q << std::endl;
+	c = a;
+
+	std::cout << "Suma (a + b): " << a + b << std::endl;
+	std::cout << "Odejmowanie (a - b): " << (a - b) << std::endl;
+	std::cout << "Przypisanie (a do c): " << c << std::endl;
+	std::cout << "Dodanie z przypisaniem (a + b): " << (a += b) << std::endl;
+	std::cout << "Odejmowanie z przypisaniem (a - b): " << (a -= b) << std::endl;
+	std::cout << "Mnozenie (a * 5): " << (a * 5) << std::endl;
+	std::cout << "Mnozenie z przypisaniem (a * 5): " << (a *= 5) << std::endl;
+
+	std::cout << "Znormalizowany (a): " << a.normalizuj() << std::endl;
+	std::cout << "Iloczyn skalarny (a, b): " << a.obliczSkalarny(b) << std::endl;
+	std::cout << "Iloczyn wektorowy (a, b): " << a.obliczWektorowy(b) << std::endl;
+	*/
+	std::cout << std::endl << std::endl << "MACIERZE" << std::endl << std::endl;
+
+	Macierz<3> mac1 = Macierz<3>();
+	mac1.setAt(0, 0, 1);
+	mac1.setAt(0, 1, 4);
+	mac1.setAt(0, 2, 2);
+	mac1.setAt(1, 0, 2);
+	mac1.setAt(1, 1, 0);
+	mac1.setAt(1, 2, 1);
+	mac1.setAt(2, 0, 3);
+	mac1.setAt(2, 1, 1);
+	mac1.setAt(2, 2, 1);
+	std::cout << "mac1: " << std::endl << mac1 << std::endl << std::endl;
+
+	Macierz<3> mac2 = Macierz<3>();
+	mac2.setAt(0, 0, 1);
+	mac2.setAt(0, 1, 6);
+	mac2.setAt(0, 2, 1);
+	mac2.setAt(1, 0, 1);
+	mac2.setAt(1, 1, 0);
+	mac2.setAt(1, 2, 1);
+	mac2.setAt(2, 0, 2);
+	mac2.setAt(2, 1, 1);
+	mac2.setAt(2, 2, 0);
+
+	std::cout << "mac2: " << std::endl << mac2 << std::endl << std::endl;
+
+	if (mac1.getMacierzJednostokowa() == nullptr) {
+		std::cout << "Macierz jednostkowa z mac1 nie istnieje" << std::endl;
+	}
+	else {
+		std::cout << "Macierz jednostkowa z mac1: " << std::endl;
+		std::cout << *(mac1.getMacierzJednostokowa()) << std::endl;
+	}
+
+	std::cout << "Macierz transponowana z mac1: " << std::endl;
+	std::cout << *(mac1.getMacierzTransponowana()) << std::endl;
+
+	std::cout << "Dodawanie (mac1 + mac2): " << std::endl << (mac1 + mac2) << std::endl;
+	std::cout << "Odejmowanie (mac1 - mac2): " << std::endl << (mac1 - mac2) << std::endl;
+	std::cout << "Mnozenie przez macierz (mac1 * mac2): " << std::endl << (mac1 * mac2) << std::endl;
+	std::cout << "Mnozenie przez liczbe (mac1 * 2): " << std::endl << (mac1 * 2) << std::endl;
+
+
+	std::cout << "mac1: " << std::endl << mac1 << std::endl << std::endl;
+	//std::cout << "a: " << std::endl << a << std::endl << std::endl;
+	//std::cout << "Mnozenie przez wektor (mac1 * a): " << std::endl << (mac1 * a) << std::endl;
+	std::cout << "Przypisanie (mac1 = mac2): " << std::endl << (mac1 = mac2) << std::endl;
+
+	mac1 += mac2;
+	std::cout << "Po dodaniu z przypisaniem (mac1 += mac2): " << std::endl << mac1 << std::endl;
+	mac1 -= mac2;
+	std::cout << "Po odejmowaniu z przypisaniem (mac1 -= mac2): " << std::endl << mac1 << std::endl;
+
+	mac1 *= mac2;
+
+	std::cout << "Po mnozeniu przez macierz z przypisaniem (mac1 *= mac2): " << std::endl << mac1 << std::endl;
+	mac1 *= 3;
+	std::cout << "Po mnozeniu przez liczbe z przypisaniem (mac1 * 3): " << std::endl << mac1 << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << "90 stopni to: " << naRadiany(90) << std::endl;
+	std::cout << "a teraz na stopnie to: " << naStopnie(1.5708) << std::endl;
+
+
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	glutMainLoop();
-
-	
 
 	return 0;
 }

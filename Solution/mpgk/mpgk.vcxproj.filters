@@ -21,12 +21,18 @@
     <ClInclude Include="Wektor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Macierz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mpgk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Wektor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Macierz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

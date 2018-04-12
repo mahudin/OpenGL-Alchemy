@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Macierz.h" />
     <ClInclude Include="mpgk.h" />
     <ClInclude Include="Wektor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Macierz.cpp" />
     <ClCompile Include="mpgk.cpp" />
     <ClCompile Include="Wektor.cpp" />
   </ItemGroup>

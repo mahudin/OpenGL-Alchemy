@@ -9,9 +9,6 @@
 #include <fstream>
 #include <string>
 
-
-
-
 GLuint VAO;
 GLuint VBO;
 GLuint CBO;
@@ -40,4 +37,6 @@ public:
 
 	std::string readFile(const char *filePath);
 	void zapisz_shader(std::string shader, const char *vertShaderSrc);
+	int naStopnie(float radian);
+	float naRadiany(int stopien);
 };
