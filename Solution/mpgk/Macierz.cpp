@@ -193,21 +193,6 @@ Macierz<SIZE>& Macierz<SIZE>::operator *= (int mnoznik) {
 	return *this;
 };
 
-/*template<unsigned int SIZE>
-Wektor<SIZE> Macierz<SIZE>::operator * (const Wektor<SIZE>& w) {
-
-	Wektor<SIZE> n = Wektor<SIZE>();
-
-	for (int i = 0; i < SIZE; i++) {
-		GLfloat s = 0;
-		for (int j = 0; j < SIZE; j++) {
-			s += (wspolczynniki[i][j] * w.getAt(j));
-		}
-		n.setAt(i, s);
-	}
-	return n;
-};*/
-
 template<unsigned int SIZE>
 Macierz<SIZE>::~Macierz() {
 	for (int i = 0; i < SIZE; i++) {
