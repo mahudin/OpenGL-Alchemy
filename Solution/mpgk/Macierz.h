@@ -28,7 +28,7 @@ public:
 
 	void setAt(int, int, GLfloat);
 	GLfloat getAt(int, int) const;
-	GLfloat** getTab() const;
+	GLfloat* getTab() const;
 
 	Macierz* getMacierzJednostokowa();
 	Macierz* getMacierzTransponowana();

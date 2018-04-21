@@ -153,11 +153,13 @@
   <ItemGroup>
     <ClInclude Include="Macierz.h" />
     <ClInclude Include="mpgk.h" />
+    <ClInclude Include="Przekształcenie.h" />
     <ClInclude Include="Wektor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Macierz.cpp" />
     <ClCompile Include="mpgk.cpp" />
+    <ClCompile Include="Przekształcenie.cpp" />
     <ClCompile Include="Wektor.cpp" />
   </ItemGroup>
   <ItemGroup>

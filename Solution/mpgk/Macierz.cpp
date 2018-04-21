@@ -57,8 +57,17 @@ GLfloat Macierz<SIZE>::getAt(int wiersz, int kolumna) const {
 };
 
 template<unsigned int SIZE>
-GLfloat** Macierz<SIZE>::getTab() const {
-	return wspolczynniki;
+GLfloat* Macierz<SIZE>::getTab() const {
+	GLfloat* wsp = new GLfloat[SIZE*SIZE];
+
+	int k = 0;
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			wsp[k] = wspolczynniki[i][j];
+			k++;
+		}
+	}
+	return wsp;
 };
 
 template<unsigned int SIZE>

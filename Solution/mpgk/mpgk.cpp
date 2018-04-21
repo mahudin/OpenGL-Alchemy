@@ -1,14 +1,7 @@
 #include "mpgk.h"
 #include "Wektor.h"
 #include "Macierz.cpp"
-
-float naRadiany(int stopien) {
-	return (stopien * 3.1415) / 180;
-}
-
-int naStopnie(float radiany) {
-	return (radiany * 180) / 3.1415;
-}
+#include "Przekszta³cenie.cpp"
 
 ProgramMPGK::ProgramMPGK()
 {
@@ -38,8 +31,7 @@ void ProgramMPGK::stworzenieOkna(GLint argc, GLchar** argv)
 void ProgramMPGK::inicjalizacjaGlew()
 {
 	GLenum wynik = glewInit();
-	if (wynik != GLEW_OK)
-	{
+	if (wynik != GLEW_OK){
 		std::cerr << "Nie udalo sie zainicjalizowac GLEW. Blad: " << glewGetErrorString(wynik) << std::endl;
 		system("pause");
 		exit(1);
@@ -60,7 +52,64 @@ void  ProgramMPGK::wyswietl()
 	mJ[2][0] = 0.0f;  mJ[2][1] = 0.0f;  mJ[2][2] = 1.0f;  mJ[2][3] = 0.0f;
 	mJ[3][0] = 0.0f;  mJ[3][1] = 0.0f;	mJ[3][2] = 0.0f;  mJ[3][3] = 1.0f;
 
-	glUniformMatrix4fv(macierzShader, 1, GL_TRUE, &mJ[0][0]);
+	GLfloat mJ2[4][4];
+	mJ2[0][0] = 1.0f;  mJ2[0][1] = 0.0f;	mJ2[0][2] = 0.0f;  mJ2[0][3] = 0.0f;
+	mJ2[1][0] = 0.0f;  mJ2[1][1] = 1.0f;	mJ2[1][2] = 0.0f;  mJ2[1][3] = 0.0f;
+	mJ2[2][0] = 0.0f;  mJ2[2][1] = 0.0f;    mJ2[2][2] = 1.0f;  mJ2[2][3] = 0.0f;
+	mJ2[3][0] = 0.0f;  mJ2[3][1] = 0.0f;	mJ2[3][2] = 0.0f;  mJ2[3][3] = 1.0f;
+
+	Przeksztalcenia<4> p = Przeksztalcenia<4>();
+
+	Macierz<4>* macierz_transformowana;
+
+	//SKALOWANIE
+	//macierz = p.generujMacierzSkalowania(3);
+	//macierz = p.generujMacierzSkalowania(4,6);
+	//macierz = p.generujMacierzSkalowania(4, 6, -2);
+	//GLfloat t[] = { 1,2,3 };
+	//macierz = p.generujMacierzSkalowania(t);
+
+	//OBRÓT
+	//macierz = p.generujMacierzObrotu(30, OS::Z);
+	//macierz = p.generujMacierzObrotu(30, OS::Y);
+	//macierz = p.generujMacierzObrotu(30, OS::Z);
+
+	//PRZEKSZTALENIE
+	//macierz = p.generujMacierzPrzesuniecia(3);
+	//macierz = p.generujMacierzPrzesuniecia(0.4,-0.5);
+	//macierz = p.generujMacierzPrzesuniecia(0.2,0.3);
+	//GLfloat t[] = { 1,2,3 };
+	//macierz = p.generujMacierzPrzesuniecia(t);
+
+	//PERSPEKTYWA
+	//macierz = p.generujMacierzPerspektywy(110, 768, 1024, -0.1f, -10.0f);
+
+	//£¥CZENIE TRANSFORMACJI
+	Macierz<4>* tab = new Macierz<4>[5];
+	Macierz<4>* p1 = p.generujMacierzPrzesuniecia(0.4, -0.5);
+	Macierz<4>* p2 = p.generujMacierzObrotu(90, OS::Z);
+	Macierz<4>* p5 = p.generujMacierzPrzesuniecia(-0.4, 0.5);
+	
+	
+	tab[0] = *(p1);
+	tab[1] = *(p2);
+	tab[2] = *(p5);
+	macierz_transformowana = p.polaczTransformacje(tab, 3);
+
+	if (macierz_transformowana != nullptr) {
+		glUniformMatrix4fv(macierzShader, 1, GL_TRUE, macierz_transformowana->getTab());
+		delete macierz_transformowana;
+	} else {
+		std::cout << "macierz == nullptr" << std::endl;
+		glUniformMatrix4fv(macierzShader, 1, GL_TRUE, &mJ[0][0]);
+	}
+
+	delete[] tab;
+	delete p1;
+	delete p2;
+	delete p5;
+	
+	//glUniformMatrix4fv(macierzShader, 1, GL_TRUE, &mJ2[0][0]);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
@@ -94,6 +143,8 @@ void ProgramMPGK::stworzenieVBO()
 		0.0f,  1.0f, 0.0f
 	};
 
+	
+
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(wierzcholki), wierzcholki, GL_STATIC_DRAW);
@@ -118,14 +169,6 @@ void ProgramMPGK::zapisz_shader(std::string shader, const char *vertShaderSrc) {
 
 	outfile.open(shader, std::ios_base::app);
 	outfile << vertShaderSrc;
-}
-
-int ProgramMPGK::naStopnie(float radian) {
-	return radian * (180.0 / 3.141592653589793238463);
-}
-
-float ProgramMPGK::naRadiany(int stopien) {
-	return 3.141592653589793238463/180.0 * stopien;
 }
 
 std::string ProgramMPGK::readFile(const char *filePath) {
@@ -290,7 +333,7 @@ GLint main(GLint argc, GLchar** argv)
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 	std::cout << "Wersja GL: " << glGetString(GL_VERSION) << std::endl;
 
-	Wektor w1 = Wektor(1.0, 2.0, 3.0);
+	/*Wektor w1 = Wektor(1.0, 2.0, 3.0);
 	Wektor w2 = Wektor(0.0, 5.0, 1.0);
 	Wektor w3 = w1 + w2;
 	std::cout << w3;
@@ -310,13 +353,13 @@ GLint main(GLint argc, GLchar** argv)
 	mac1.setAt(0, 0, 1);
 	mac1.setAt(0, 1, 5);
 	mac1.setAt(0, 2, 2);
-	mac1.setAt(1, 2, 2);
+	mac1.setAt(1, 0, 2);
 	mac1.setAt(1, 1, 0);
-	mac1.setAt(1, 3, 1);
+	mac1.setAt(1, 2, 1);
 	mac1.setAt(2, 0, 3);
 	mac1.setAt(2, 1, 4);
 	mac1.setAt(2, 2, 1);
-	std::cout << "mac1: " << std::endl << mac1 << std::endl << std::endl;
+	std::cout << "macierz 1: " << std::endl << mac1 << std::endl << std::endl;
 
 	Macierz<3> mac2 = Macierz<3>();
 	mac2.setAt(0, 0, 1);
@@ -365,8 +408,144 @@ GLint main(GLint argc, GLchar** argv)
 	std::cout << std::endl;
 
 	std::cout << "90 stopni w radianach to: " << naRadiany(90) << std::endl;
-	std::cout << "a na stopnie to: " << naStopnie(1.5708) << std::endl;
+	std::cout << "a na stopnie to: " << naStopnie(1.5708) << std::endl;*/
 
+
+	std::cout << std::endl << std::endl << "PRZEKSZTALCENIA" << std::endl << std::endl;
+
+	GLfloat tab[9] = { 1,2,3,4,5,6,7,8,9 };
+	GLfloat tab3[] = { 4,5,6 };
+	GLfloat tab4[4] = { 4,5,6,7 };
+
+	Macierz<3> mac = Macierz<3>(*tab);
+	std::cout << mac << std::endl;
+
+	//TEST: Skalowanie dla macierzy 3x3
+	/*Przeksztalcenia<3>* p = new Przeksztalcenia<3>(3);
+	Macierz<3>* mac3;
+	Macierz<4>* ptr4;
+
+	mac3 = p->getMacierz();
+	if (mac3 != nullptr) {
+		std::cout << "Macierz" << std::endl;
+		std::cout << *mac3 << std::endl;
+		delete mac3;
+	}
+
+	std::cout << "Macierz skalowania z { 4,5,6 }" << std::endl;
+	ptr4 = p->generujMacierzSkalowania(tab3);
+	if (ptr4 != nullptr) {
+		std::cout << *ptr4 << std::endl;
+		delete ptr4;
+	}
+
+	std::cout << "Macierz skalowania z 3" << std::endl;
+	ptr4 = p->generujMacierzSkalowania(3);
+	if (ptr4 != nullptr) {
+		std::cout << *ptr4 << std::endl;
+		delete ptr4;
+	}
+
+	std::cout << "Macierz skalowania z 1,2,3" << std::endl;
+	ptr4 = p->generujMacierzSkalowania(1, 2, 3);
+	if (ptr4 != nullptr) {
+		std::cout << *ptr4 << std::endl;
+		delete ptr4;
+	}
+
+	std::cout << "Macierz skalowania z 3,4" << std::endl;
+	ptr4 = p->generujMacierzSkalowania(3, 4);
+	if (ptr4 != nullptr) {
+		std::cout << *ptr4 << std::endl;
+		delete ptr4;
+	}
+
+	//TEST: Skalowanie dla macierzy 4x4
+	Przeksztalcenia<4>* p2 = new Przeksztalcenia<4>(4);
+
+	Macierz<4>* mac4;
+	Macierz<5>* ptr5;
+
+	mac4 = p2->getMacierz();
+	if (mac4 != nullptr) {
+		std::cout << "Macierz" << std::endl;
+		std::cout << *mac4 << std::endl;
+		delete mac4;
+	}
+
+	std::cout << "Macierz skalowania z { 4,5,6,7 }" << std::endl;
+	ptr5 = p2->generujMacierzSkalowania(tab4);
+	if (ptr5 != nullptr) {
+		std::cout << *ptr5 << std::endl;
+		delete ptr5;
+	}
+
+	std::cout << "Macierz skalowania z 3" << std::endl;
+	ptr5 = p2->generujMacierzSkalowania(3);
+	if (ptr5 != nullptr) {
+		std::cout << *ptr5 << std::endl;
+		delete ptr5;
+	}
+
+	std::cout << "Macierz skalowania z 1,2,3" << std::endl;
+	ptr5 = p2->generujMacierzSkalowania(1, 2, 3);
+	if (ptr5 != nullptr) {
+		std::cout << *ptr5 << std::endl;
+		delete ptr5;
+	}
+
+	std::cout << "Macierz skalowania z 3,4" << std::endl;
+	ptr5 = p2->generujMacierzSkalowania(3, 4);
+	if (ptr5 != nullptr) {
+		std::cout << *ptr5 << std::endl;
+		delete ptr5;
+	}
+
+	std::cout << "Macierz obrotu o 50 przez Y" << std::endl;
+	ptr4 = p->generujMacierzObrotu(50.0,OS::Y);
+	if (ptr4 != nullptr) {
+		std::cout << *ptr4 << std::endl;
+		delete ptr4;
+	}
+
+	std::cout << "Macierz obrotu o 90 " << std::endl;
+	
+	//std::cout << "Macierz obrotu o 50 przez Z" << std::endl;
+
+	//std::cout << p2->generujMacierzObrotu(50,OS::Z) << std::endl;
+	/*std::cout << "Macierz obrotu o 50 przez Y" << std::endl;
+	ptr5 = p2->generujMacierzObrotu(50,OS::Z);
+	if (ptr5 != nullptr) {
+		std::cout << *ptr5 << std::endl;
+	}*/
+
+/*	std::cout << *p->generujMacierzPrzesuniecia(tab3) << std::endl;
+	std::cout << *p->generujMacierzPrzesuniecia(4) << std::endl;
+	std::cout << *p->generujMacierzPrzesuniecia(2,3) << std::endl;
+	std::cout << *p->generujMacierzPrzesuniecia(5,6,7) << std::endl;
+	
+	try {
+		//TEST: Przesuniêcie dla macierzy 4x4
+		//std::cout << *p2->generujMacierzPrzesuniecia(tab4) << std::endl;
+		/*std::cout << *p2->generujMacierzPrzesuniecia(4) << std::endl;
+		std::cout << *p2->generujMacierzPrzesuniecia(2, 3) << std::endl;
+		std::cout << *p2->generujMacierzPrzesuniecia(5, 6, 7) << std::endl;
+	} catch (std::string w)
+	{
+		std::cout << "Wyjatek: " << w;
+	}
+
+	
+	
+	GLfloat t[] = { 1,2,3 };
+
+	Przeksztalcenia<3> p3 = Przeksztalcenia<3>();
+	Macierz<4>* m = p3.generujMacierzPrzesuniecia(t);
+	std::cout << *m << std::endl;
+	
+	delete p;
+	delete p2;
+	*/
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 

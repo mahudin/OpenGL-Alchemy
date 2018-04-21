@@ -24,6 +24,9 @@
     <ClInclude Include="Macierz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Przekształcenie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mpgk.cpp">
@@ -33,6 +36,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Macierz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Przekształcenie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

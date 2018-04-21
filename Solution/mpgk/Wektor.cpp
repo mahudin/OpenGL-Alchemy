@@ -3,11 +3,9 @@
 
 Wektor::Wektor() {
 	wspolrzedne = new GLfloat[4];
-
 	for (int i = 0; i < 4; i++) {
 		wspolrzedne[i] = NULL;
 	}
-
 }
 
 Wektor::Wektor(GLfloat x) :Wektor() {
@@ -129,15 +127,12 @@ std::ostream& operator << (std::ostream& out, const Wektor& w) {
 	if (w.wspolrzedne[0]) {
 		out << "(" << w.wspolrzedne[0];
 	}
-
 	if (w.wspolrzedne[1]) {
 		out << ", " << w.wspolrzedne[1];
 	}
-
 	if (w.wspolrzedne[2] && w.wspolrzedne[3] == NULL) {
 		out << ", " << w.wspolrzedne[2] << ")";
-	}
-	else {
+	} else {
 		out << ", " << w.wspolrzedne[2] << ", " << w.wspolrzedne[3] << ")";
 	}
 
@@ -166,6 +161,5 @@ Wektor Wektor::obliczWektorowy(const Wektor& w) {
 	n.setX(this->wspolrzedne[1] * w.getZ() - wspolrzedne[2] * w.getY());
 	n.setY(this->wspolrzedne[2] * w.getX() - wspolrzedne[0] * w.getZ());
 	n.setZ(this->wspolrzedne[0] * w.getY() - wspolrzedne[1] * w.getX());
-
 	return n;
 }

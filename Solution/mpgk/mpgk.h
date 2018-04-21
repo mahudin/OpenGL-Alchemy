@@ -8,6 +8,7 @@
 #include <math.h>
 #include <fstream>
 #include <string>
+#include "Przekszta³cenie.h"
 
 GLuint VAO;
 GLuint VBO;
@@ -37,6 +38,4 @@ public:
 
 	std::string readFile(const char *filePath);
 	void zapisz_shader(std::string shader, const char *vertShaderSrc);
-	int naStopnie(float radian);
-	float naRadiany(int stopien);
 };
