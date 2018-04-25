@@ -184,21 +184,21 @@ Macierz<S>* Przeksztalcenia<S>::polaczTransformacje(Macierz<S>* tab, int size) {
 	}
 }
 
-/*template<unsigned int S>
+template<unsigned int S>
 Macierz<S>* Przeksztalcenia<S>::generujMacierzPerspektywy(GLfloat kat, GLfloat wys, GLfloat szer, GLfloat blZ, GLfloat dlZ) {
 
-GLfloat rad = naRadiany(kat);
-GLfloat ar = szer / wys;
-Macierz<S>* persp = new Macierz<S>;
+	GLfloat rad = naRadiany(kat);
+	GLfloat ar = szer / wys;
+	Macierz<S>* persp = new Macierz<S>;
 
-persp->setAt(0, 0, 1 / (ar * tan(rad / 2)));
-persp->setAt(1, 1, 1 / tan(rad / 2));
-persp->setAt(2, 2, (-blZ - dlZ) / (blZ - dlZ));
-persp->setAt(2, 3, (2 * dlZ*blZ) / (blZ - dlZ));
-persp->setAt(3, 2, 1);
-if (S > 3) {
-persp->setAt(3, 3, 1);
+	persp->setAt(0, 0, 1 / (ar * tan(rad / 2)));
+	persp->setAt(1, 1, 1 / tan(rad / 2));
+	persp->setAt(2, 2, (-blZ - dlZ) / (blZ - dlZ));
+	persp->setAt(2, 3, (2 * dlZ*blZ) / (blZ - dlZ));
+	persp->setAt(3, 2, 1);
+	if (S > 3) {
+		persp->setAt(3, 3, 1);
+	}
+
+	return persp;
 }
-
-return persp;
-}*/

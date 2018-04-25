@@ -82,19 +82,17 @@ void  ProgramMPGK::wyswietl()
 	//macierz = p.generujMacierzPrzesuniecia(t);
 
 	//PERSPEKTYWA
-	//macierz = p.generujMacierzPerspektywy(110, 768, 1024, -0.1f, -10.0f);
+	macierz_transformowana = p.generujMacierzPerspektywy(110, 368, 1024, -0.1f, -10.0f);
 
-	//£¥CZENIE TRANSFORMACJI
 	Macierz<4>* tab = new Macierz<4>[5];
 	Macierz<4>* p1 = p.generujMacierzPrzesuniecia(0.4, -0.5);
 	Macierz<4>* p2 = p.generujMacierzObrotu(90, OS::Z);
 	Macierz<4>* p5 = p.generujMacierzPrzesuniecia(-0.4, 0.5);
 	
-	
 	tab[0] = *(p1);
 	tab[1] = *(p2);
 	tab[2] = *(p5);
-	macierz_transformowana = p.polaczTransformacje(tab, 3);
+	//macierz_transformowana = p.polaczTransformacje(tab, 3);
 
 	if (macierz_transformowana != nullptr) {
 		glUniformMatrix4fv(macierzShader, 1, GL_TRUE, macierz_transformowana->getTab());

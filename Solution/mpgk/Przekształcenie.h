@@ -27,15 +27,16 @@ public:
 
 	Macierz<S>* generujMacierzSkalowania(GLfloat);
 	Macierz<S>* generujMacierzSkalowania(GLfloat, GLfloat); // dla macierzy 3 x 3
-	Macierz<S>* generujMacierzSkalowania(GLfloat, GLfloat, GLfloat); // dla macierzy 4 x 4
+	Macierz<S>* generujMacierzSkalowania(GLfloat, GLfloat, GLfloat); // do macierzy 4d
 	Macierz<S>* generujMacierzSkalowania(GLfloat*);
 
-	Macierz<S>* generujMacierzObrotu(GLfloat, OS); // dla macierzy 3 x 3
+	Macierz<S>* generujMacierzObrotu(GLfloat, OS); // do macierzy 3d
 
 	Macierz<S>* generujMacierzPrzesuniecia(GLfloat);
-	Macierz<S>* generujMacierzPrzesuniecia(GLfloat, GLfloat); // dla macierzy 3 x 3
-	Macierz<S>* generujMacierzPrzesuniecia(GLfloat, GLfloat, GLfloat); // dla macierzy 4 x 4
+	Macierz<S>* generujMacierzPrzesuniecia(GLfloat, GLfloat); // do macierzy 3d
+	Macierz<S>* generujMacierzPrzesuniecia(GLfloat, GLfloat, GLfloat); // do macierzy 4d
 	Macierz<S>* generujMacierzPrzesuniecia(GLfloat*);
 
 	Macierz<S>* polaczTransformacje(Macierz<S>* tab, int size);
+	Macierz<S>* generujMacierzPerspektywy(GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);
 };
